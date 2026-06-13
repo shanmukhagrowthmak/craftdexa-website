@@ -3,210 +3,135 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 const steps = [
   {
     num: "01",
-    phase: "Discover",
-    weeks: "Week 1–2",
-    description:
-      "We enter your world. Deep research, stakeholder calls, competitive audit. We don't guess — we understand.",
+    title: "Discover",
+    desc: "Deep-dive into your goals, users, and market. We define scope, set success metrics, and map out the exact roadmap.",
+    detail: "2–3 days",
   },
   {
     num: "02",
-    phase: "Design",
-    weeks: "Week 2–5",
-    description:
-      "We make it believable. High-fidelity prototypes, motion specs, brand alignment. You'll see it before we build it.",
+    title: "Design",
+    desc: "High-fidelity UI/UX that converts. Every screen is reviewed with you before a single line of code is written.",
+    detail: "1–2 weeks",
   },
   {
     num: "03",
-    phase: "Develop",
-    weeks: "Week 4–10",
-    description:
-      "We engineer it to scale. Clean code, CI/CD, type-safe. Built for the long run, not just the demo.",
+    title: "Build",
+    desc: "Full-stack engineering with weekly demos. You see real progress every Friday — no black-box development.",
+    detail: "2–4 weeks",
   },
   {
     num: "04",
-    phase: "Scale",
-    weeks: "Ongoing",
-    description:
-      "We grow it with you. Analytics, iteration, growth systems. This is where most agencies disappear — we don't.",
+    title: "Launch",
+    desc: "Deployment, QA, analytics setup, and a growth plan. We don't disappear after go-live.",
+    detail: "Ongoing",
   },
 ];
 
 export default function Process() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
-  const [activeStep, setActiveStep] = useState<number | null>(null);
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <section
-      id="process"
-      ref={ref}
-      className="py-28 lg:py-36 px-6 relative overflow-hidden"
-      style={{ background: "#0A0E1A" }}
-    >
-      {/* Background dots */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: `radial-gradient(circle, #1E2A45 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
-        }}
-      />
-
-      <div className="max-w-7xl mx-auto relative">
-        {/* Header */}
+    <section id="process" ref={ref} className="py-28 px-6" style={{ background: "#0A0E1A" }}>
+      <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-16 lg:mb-24"
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mb-16"
         >
-          <span
-            className="block text-xs tracking-[0.2em] mb-4"
-            style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}
-          >
+          <p className="text-xs tracking-[0.2em] mb-4" style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}>
             HOW WE WORK
-          </span>
-          <h2
-            className="text-4xl lg:text-5xl xl:text-6xl tracking-tight"
-            style={{ fontFamily: "var(--font-syne)", fontWeight: 800, color: "#F0EEF8" }}
-          >
-            Fast. Transparent.
-            <br />
-            <span style={{ color: "#8B90A7" }}>No surprises.</span>
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight" style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}>
+            Four steps to shipped.
           </h2>
         </motion.div>
 
-        {/* Desktop timeline */}
-        <div className="hidden lg:block relative">
-          {/* Connecting line */}
-          <div className="absolute top-12 left-0 right-0 h-px" style={{ background: "#1E2A45" }}>
-            <motion.div
-              className="h-full origin-left"
-              initial={{ scaleX: 0 }}
-              animate={inView ? { scaleX: 1 } : {}}
-              transition={{ delay: 0.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              style={{ background: "#6C63FF", opacity: 0.4 }}
-            />
-          </div>
-
-          <div className="grid grid-cols-4 gap-8">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.num}
-                initial={{ y: 30, opacity: 0 }}
-                animate={inView ? { y: 0, opacity: 1 } : {}}
-                transition={{ delay: 0.3 + i * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="relative flex flex-col gap-5 cursor-pointer"
-                onMouseEnter={() => setActiveStep(i)}
-                onMouseLeave={() => setActiveStep(null)}
-              >
-                {/* Step circle */}
-                <div className="relative flex items-center">
-                  <motion.div
-                    className="w-6 h-6 rounded-full border-2 transition-all duration-300 flex items-center justify-center"
-                    animate={{
-                      borderColor: activeStep === i ? "#F5A623" : "#1E2A45",
-                      background:
-                        activeStep === i
-                          ? "rgba(245,166,35,0.15)"
-                          : "#0A0E1A",
-                      scale: activeStep === i ? 1.3 : 1,
-                    }}
-                  >
-                    {activeStep === i && (
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{ background: "#F5A623" }}
-                      />
-                    )}
-                  </motion.div>
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col gap-3">
-                  <span
-                    className="text-xs font-bold"
-                    style={{ fontFamily: "var(--font-space-mono)", color: "#F5A623" }}
-                  >
-                    {step.num}
-                  </span>
-                  <h3
-                    className="text-2xl transition-colors duration-300"
-                    style={{
-                      fontFamily: "var(--font-syne)",
-                      fontWeight: 700,
-                      color: activeStep === i ? "#F0EEF8" : "#B8BCCC",
-                    }}
-                  >
-                    {step.phase}
-                  </h3>
-                  <span
-                    className="text-xs"
-                    style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}
-                  >
-                    {step.weeks}
-                  </span>
-                  <p
-                    className="text-sm leading-relaxed"
-                    style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}
-                  >
-                    {step.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile — vertical stack */}
-        <div className="lg:hidden flex flex-col gap-0 relative">
-          <div
-            className="absolute left-5 top-6 bottom-6 w-px"
-            style={{ background: "linear-gradient(to bottom, #6C63FF, transparent)" }}
+        {/* Desktop: horizontal */}
+        <div className="hidden lg:grid grid-cols-4 gap-0 relative">
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={inView ? { scaleX: 1 } : {}}
+            transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
+            className="absolute top-8 left-[12.5%] right-[12.5%] h-px"
+            style={{ background: "linear-gradient(90deg, #6C63FF, #F5A623)", transformOrigin: "left" }}
           />
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
-              initial={{ x: -20, opacity: 0 }}
-              animate={inView ? { x: 0, opacity: 1 } : {}}
-              transition={{ delay: 0.2 + i * 0.1, duration: 0.6 }}
+              initial={{ opacity: 0, y: 32 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.12, ease: EASE }}
+              className="flex flex-col items-center text-center px-6"
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center text-sm font-bold mb-6 transition-all duration-300 z-10"
+                style={{
+                  fontFamily: "var(--font-space-mono)",
+                  background: hovered === i ? "#F5A623" : "#131929",
+                  border: `2px solid ${hovered === i ? "#F5A623" : "#6C63FF"}`,
+                  color: hovered === i ? "#0A0E1A" : "#6C63FF",
+                  boxShadow: hovered === i ? "0 0 30px rgba(245,166,35,0.4)" : "none",
+                }}
+              >
+                {step.num}
+              </div>
+              <h3 className="text-lg font-bold mb-3" style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}>
+                {step.title}
+              </h3>
+              <p className="text-sm leading-relaxed mb-3" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+                {step.desc}
+              </p>
+              <span className="text-xs" style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}>
+                {step.detail}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile: vertical */}
+        <div className="lg:hidden flex flex-col gap-0">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, x: -24 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.12, ease: EASE }}
               className="flex gap-6 pb-10 relative"
             >
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 z-10"
-                  style={{
-                    background: "#131929",
-                    border: "2px solid #6C63FF",
-                    fontFamily: "var(--font-space-mono)",
-                    color: "#F5A623",
-                  }}
-                >
-                  {step.num}
-                </div>
+              {i < steps.length - 1 && (
+                <div className="absolute left-6 top-16 bottom-0 w-px" style={{ background: "#1E2A45" }} />
+              )}
+              <div
+                className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold z-10"
+                style={{
+                  fontFamily: "var(--font-space-mono)",
+                  background: "#131929",
+                  border: "2px solid #6C63FF",
+                  color: "#6C63FF",
+                }}
+              >
+                {step.num}
               </div>
-              <div className="flex flex-col gap-2 pt-2">
-                <h3
-                  className="text-xl"
-                  style={{ fontFamily: "var(--font-syne)", fontWeight: 700, color: "#F0EEF8" }}
-                >
-                  {step.phase}
+              <div className="pt-2">
+                <h3 className="text-lg font-bold mb-2" style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}>
+                  {step.title}
                 </h3>
-                <span
-                  className="text-xs"
-                  style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}
-                >
-                  {step.weeks}
-                </span>
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}
-                >
-                  {step.description}
+                <p className="text-sm leading-relaxed mb-2" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+                  {step.desc}
                 </p>
+                <span className="text-xs" style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}>
+                  {step.detail}
+                </span>
               </div>
             </motion.div>
           ))}

@@ -1,10 +1,12 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
-import Story from "@/components/Story";
-import TheCounter from "@/components/TheCounter";
-import BakeTimes from "@/components/BakeTimes";
-import Visit from "@/components/Visit";
+import About from "@/components/About";
+import Services from "@/components/Services";
+import Stats from "@/components/Stats";
+import Process from "@/components/Process";
+import WhyUs from "@/components/WhyUs";
+import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -13,10 +15,12 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Marquee />
-      <Story />
-      <TheCounter />
-      <BakeTimes />
-      <Visit />
+      <About />
+      <Services />
+      <Stats />
+      <Process />
+      <WhyUs />
+      <CTASection />
       <Footer />
     </main>
   );

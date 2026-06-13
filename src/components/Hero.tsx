@@ -1,194 +1,258 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+function NodeCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animFrame: number;
+    let w = 0, h = 0;
+    const nodes: { x: number; y: number; vx: number; vy: number; r: number; opacity: number }[] = [];
+    const COUNT = 55;
+
+    const resize = () => {
+      w = canvas.offsetWidth;
+      h = canvas.offsetHeight;
+      canvas.width = w;
+      canvas.height = h;
+    };
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+
+    for (let i = 0; i < COUNT; i++) {
+      nodes.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.5 + 0.2,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const node of nodes) {
+        node.x += node.vx;
+        node.y += node.vy;
+        if (node.x < 0 || node.x > w) node.vx *= -1;
+        if (node.y < 0 || node.y > h) node.vy *= -1;
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 140) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(108,99,255,${(1 - dist / 140) * 0.18})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+      for (const node of nodes) {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(108,99,255,${node.opacity})`;
+        ctx.fill();
+        if (node.r > 2.5) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.r * 0.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(245,166,35,${node.opacity * 0.7})`;
+          ctx.fill();
+        }
+      }
+      animFrame = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animFrame);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ opacity: 0.6 }}
+    />
+  );
+}
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { y: 30, opacity: 0 },
   show: (i: number) => ({
-    opacity: 1,
     y: 0,
-    transition: { delay: i * 0.13, duration: 0.75, ease: EASE },
+    opacity: 1,
+    transition: { delay: i * 0.12, duration: 0.7, ease: EASE },
   }),
 };
+
+const badges = [
+  { label: "200+ Projects", color: "#6C63FF" },
+  { label: "4-Week MVPs", color: "#F5A623" },
+  { label: "AI-Native", color: "#6C63FF" },
+];
 
 export default function Hero() {
   return (
     <section
-      id="hero"
-      className="relative flex flex-col items-center justify-center overflow-hidden"
-      style={{
-        background: "#7A2421",
-        minHeight: "100svh",
-        paddingTop: "4rem",
-        paddingBottom: "5rem",
-      }}
+      className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-16 overflow-hidden"
+      style={{ background: "#0A0E1A" }}
     >
-      {/* Background photo */}
+      <NodeCanvas />
+
       <div
-        className="absolute inset-0"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full pointer-events-none"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1600&q=80')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.12,
+          background: "radial-gradient(ellipse at center, rgba(108,99,255,0.12) 0%, transparent 70%)",
+          filter: "blur(40px)",
         }}
-        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full pointer-events-none animate-pulse-glow"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(245,166,35,0.08) 0%, transparent 70%)",
+          filter: "blur(30px)",
+        }}
       />
 
-      {/* Vignette overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 40%, rgba(122,36,33,0.6) 100%)",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto w-full">
-        {/* Eyebrow */}
-        <motion.p
+      <div className="relative z-10 max-w-6xl mx-auto flex flex-col items-center gap-8">
+        <motion.h1
           custom={0}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          style={{
-            fontFamily: "var(--font-space-mono)",
-            fontSize: "0.75rem",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "#DDA34B",
-            marginBottom: "1.5rem",
-          }}
+          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.12] tracking-tight"
+          style={{ fontFamily: "var(--font-syne)", fontWeight: 800, color: "#F0EEF8" }}
         >
-          Estd. 2012 · Koyyalagudem, West Godavari
-        </motion.p>
+          We Build What
+          <br />
+          <span
+            className="text-gradient"
+            style={{ display: "inline-block", backgroundImage: "linear-gradient(90deg, #6C63FF 0%, #9C8DFF 100%)" }}
+          >
+            Founders
+          </span>
+          <br />
+          <span
+            className="text-gradient"
+            style={{ display: "inline-block", backgroundImage: "linear-gradient(90deg, #8B5CF6 0%, #F5A623 100%)" }}
+          >
+            Actually
+          </span>
+          <br />
+          Need.
+        </motion.h1>
 
-        {/* H1 */}
-        <motion.h1
+        <motion.p
           custom={1}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          style={{
-            fontFamily: "var(--font-fraunces)",
-            fontWeight: 900,
-            fontSize: "clamp(3rem, 9vw, 7rem)",
-            lineHeight: 1.0,
-            color: "#F7EFE1",
-            marginBottom: "1.5rem",
-            letterSpacing: "-0.02em",
-          }}
+          className="max-w-2xl text-lg lg:text-xl leading-relaxed"
+          style={{ fontFamily: "var(--font-inter)", color: "#8B90A7", fontWeight: 400 }}
         >
-          Manjunadha
-          <br />
-          Bakery
-        </motion.h1>
+          From raw idea to live product — design, engineering, and growth under one roof.{" "}
+          <span style={{ color: "#F0EEF8", fontWeight: 500 }}>No handoffs. No excuses.</span>
+        </motion.p>
 
-        {/* Subhead */}
-        <motion.p
+        <motion.div
           custom={2}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          style={{
-            fontFamily: "var(--font-lora)",
-            fontSize: "clamp(1rem, 2.2vw, 1.25rem)",
-            lineHeight: 1.7,
-            color: "rgba(247,239,225,0.75)",
-            marginBottom: "2.5rem",
-            maxWidth: "42rem",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
+          className="flex flex-col sm:flex-row items-center gap-4 mt-2"
         >
-          Fresh-baked buns, khara biscuits, and the Mangalore classics —
-          made the same way, every single morning.
-        </motion.p>
+          <a
+            href="#contact"
+            className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold transition-all duration-300"
+            style={{
+              background: "#6C63FF",
+              color: "#F0EEF8",
+              fontFamily: "var(--font-inter)",
+              textDecoration: "none",
+              boxShadow: "0 0 40px rgba(108,99,255,0.3)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#7C74FF";
+              e.currentTarget.style.boxShadow = "0 0 60px rgba(108,99,255,0.5)";
+              e.currentTarget.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#6C63FF";
+              e.currentTarget.style.boxShadow = "0 0 40px rgba(108,99,255,0.3)";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            Start a Project
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </a>
+          <a
+            href="#work"
+            className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold transition-all duration-300"
+            style={{
+              background: "transparent",
+              color: "#F0EEF8",
+              fontFamily: "var(--font-inter)",
+              textDecoration: "none",
+              border: "1px solid rgba(30,42,69,0.8)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "#6C63FF";
+              e.currentTarget.style.background = "rgba(108,99,255,0.08)";
+              e.currentTarget.style.transform = "translateY(-2px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(30,42,69,0.8)";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            See Our Work
+          </a>
+        </motion.div>
 
-        {/* CTAs */}
         <motion.div
           custom={3}
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-wrap items-center justify-center gap-3 mt-4"
         >
-          <a
-            href="#the-counter"
-            style={{
-              display: "inline-block",
-              background: "#DDA34B",
-              color: "#2B1D14",
-              fontFamily: "var(--font-space-mono)",
-              fontSize: "0.8rem",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              fontWeight: 700,
-              padding: "0.875rem 1.75rem",
-              borderRadius: "8px",
-              textDecoration: "none",
-              transition: "transform 0.2s ease, box-shadow 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 28px rgba(221,163,75,0.45)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            See What&apos;s Fresh Today
-          </a>
-          <a
-            href="#story"
-            style={{
-              display: "inline-block",
-              background: "transparent",
-              color: "#F7EFE1",
-              fontFamily: "var(--font-space-mono)",
-              fontSize: "0.8rem",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              fontWeight: 700,
-              padding: "0.875rem 1.75rem",
-              borderRadius: "8px",
-              textDecoration: "none",
-              border: "1.5px solid rgba(247,239,225,0.4)",
-              transition: "border-color 0.2s ease, background 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(247,239,225,0.8)";
-              e.currentTarget.style.background = "rgba(247,239,225,0.08)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(247,239,225,0.4)";
-              e.currentTarget.style.background = "transparent";
-            }}
-          >
-            Read Our Story
-          </a>
+          {badges.map((badge, i) => (
+            <motion.div
+              key={badge.label}
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.8 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
+              style={{
+                fontFamily: "var(--font-space-mono)",
+                background: "rgba(19,25,41,0.8)",
+                border: `1px solid ${badge.color}40`,
+                color: "#F0EEF8",
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: badge.color }} />
+              {badge.label}
+            </motion.div>
+          ))}
         </motion.div>
-      </div>
-
-      {/* Scalloped bottom divider — cream arches cutting into maroon */}
-      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" aria-hidden="true">
-        <svg
-          viewBox="0 0 1440 60"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ display: "block", width: "100%", height: "60px" }}
-        >
-          <path
-            d="M0 60 L0 42 Q40 0 80 42 Q120 0 160 42 Q200 0 240 42 Q280 0 320 42 Q360 0 400 42 Q440 0 480 42 Q520 0 560 42 Q600 0 640 42 Q680 0 720 42 Q760 0 800 42 Q840 0 880 42 Q920 0 960 42 Q1000 0 1040 42 Q1080 0 1120 42 Q1160 0 1200 42 Q1240 0 1280 42 Q1320 0 1360 42 Q1400 0 1440 42 L1440 60 Z"
-            fill="#F7EFE1"
-          />
-        </svg>
       </div>
     </section>
   );

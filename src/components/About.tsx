@@ -3,145 +3,83 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 export default function About() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15%" });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <section
-      id="studio"
-      ref={ref}
-      className="relative py-28 lg:py-36 px-6 overflow-hidden"
-      style={{ background: "#0A0E1A" }}
-    >
-      {/* Background glow */}
-      <div
-        className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[400px] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse, rgba(108,99,255,0.08) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-      />
-
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Left — headline */}
-          <motion.div
-            initial={{ x: -40, opacity: 0 }}
-            animate={inView ? { x: 0, opacity: 1 } : {}}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    <section id="studio" ref={ref} className="py-28 px-6" style={{ background: "#0A0E1A" }}>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: -32 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, ease: EASE }}
+        >
+          <p className="text-xs tracking-[0.2em] mb-6" style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}>
+            WHO WE ARE
+          </p>
+          <h2
+            className="text-4xl lg:text-5xl xl:text-6xl leading-[1.1] tracking-tight mb-8"
+            style={{ fontFamily: "var(--font-syne)", fontWeight: 800, color: "#F0EEF8" }}
           >
-            <span
-              className="block text-xs tracking-[0.2em] mb-8"
-              style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}
-            >
-              ABOUT US
-            </span>
-            <h2
-              className="text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight"
-              style={{ fontFamily: "var(--font-syne)", fontWeight: 800, color: "#F0EEF8" }}
-            >
-              Not an Agency.
-              <br />
-              <span className="relative inline-block">
-                A Craft Engine.
-                {/* Amber underline */}
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={inView ? { scaleX: 1 } : {}}
-                  transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute bottom-0 left-0 w-full h-1 rounded-full origin-left"
-                  style={{ background: "#F5A623", bottom: "-6px" }}
-                />
-              </span>
-            </h2>
-
-            {/* Year badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-2xl"
-              style={{
-                background: "rgba(19, 25, 41, 0.8)",
-                border: "1px solid #1E2A45",
-              }}
-            >
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{ background: "#F5A623" }}
+            Not an agency.{" "}
+            <span style={{ position: "relative", display: "inline-block" }}>
+              A Craft Engine.
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={inView ? { scaleX: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.4, ease: EASE }}
+                style={{
+                  position: "absolute",
+                  bottom: "-4px",
+                  left: 0,
+                  right: 0,
+                  height: "3px",
+                  background: "#F5A623",
+                  transformOrigin: "left",
+                  borderRadius: "2px",
+                }}
               />
-              <span
-                className="text-xs tracking-widest"
-                style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}
-              >
-                FOUNDED 2026 · REMOTE-FIRST
-              </span>
-            </motion.div>
-          </motion.div>
+            </span>
+          </h2>
+          <p className="text-lg leading-relaxed mb-6" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+            CraftDexa is a full-service digital product studio built for founders
+            who ship fast and think big. We combine design, engineering, and
+            growth strategy into one tight-knit team — no vendor chains, no
+            communication gaps.
+          </p>
+          <p className="text-lg leading-relaxed" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+            From a napkin sketch to a live product in weeks. That&apos;s the CraftDexa standard.
+          </p>
+        </motion.div>
 
-          {/* Right — body copy */}
-          <motion.div
-            initial={{ x: 40, opacity: 0 }}
-            animate={inView ? { x: 0, opacity: 1 } : {}}
-            transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-6"
-          >
-            <p
-              className="text-lg leading-relaxed"
-              style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}
-            >
-              Most agencies take your brief and disappear for 3 months. We
-              embed. We move fast. We treat your product like it's ours —
-              because{" "}
-              <span style={{ color: "#F0EEF8", fontWeight: 500 }}>
-                our reputation depends on it.
-              </span>
-            </p>
-            <p
-              className="text-lg leading-relaxed"
-              style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}
-            >
-              CraftDexa was built in 2026 by a 25-year-old who got tired of
-              watching great ideas die at the hands of slow, bloated studios.
-              We're{" "}
-              <span style={{ color: "#F0EEF8", fontWeight: 500 }}>
-                the studio we wished existed.
-              </span>
-            </p>
-
-            {/* Divider line */}
-            <div className="h-px w-full" style={{ background: "#1E2A45" }} />
-
-            {/* Mini stats */}
-            <div className="grid grid-cols-2 gap-6">
-              {[
-                { num: "25", label: "Year-old founder" },
-                { num: "2026", label: "Est. fully remote" },
-                { num: "6+", label: "Years engineering" },
-                { num: "4wk", label: "Avg MVP sprint" },
-              ].map((item) => (
-                <div key={item.label} className="flex flex-col gap-1">
-                  <span
-                    className="text-3xl font-bold"
-                    style={{ fontFamily: "var(--font-syne)", color: "#6C63FF" }}
-                  >
-                    {item.num}
-                  </span>
-                  <span
-                    className="text-xs"
-                    style={{
-                      fontFamily: "var(--font-space-mono)",
-                      color: "#8B90A7",
-                    }}
-                  >
-                    {item.label}
-                  </span>
-                </div>
-              ))}
+        <motion.div
+          initial={{ opacity: 0, x: 32 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
+          className="grid grid-cols-2 gap-4"
+        >
+          {[
+            { label: "Founded", value: "2026", sub: "Built from day one to scale" },
+            { label: "Team", value: "Lean", sub: "Senior specialists only" },
+            { label: "Focus", value: "Product", sub: "Strategy → Design → Code" },
+            { label: "Promise", value: "Ship", sub: "Real deadlines, real delivery" },
+          ].map((card) => (
+            <div key={card.label} className="p-6 rounded-2xl" style={{ background: "#131929", border: "1px solid #1E2A45" }}>
+              <p className="text-xs tracking-[0.15em] mb-2" style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}>
+                {card.label}
+              </p>
+              <p className="text-2xl font-bold mb-1" style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}>
+                {card.value}
+              </p>
+              <p className="text-sm" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+                {card.sub}
+              </p>
             </div>
-          </motion.div>
-        </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

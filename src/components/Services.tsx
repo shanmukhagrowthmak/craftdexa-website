@@ -2,202 +2,143 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  Globe,
-  Layers,
-  Smartphone,
-  Brain,
-  Rocket,
-  BarChart3,
-} from "lucide-react";
+import { Monitor, Layers, Smartphone, Bot, Rocket, TrendingUp } from "lucide-react";
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const services = [
   {
     num: "01",
-    icon: Globe,
-    name: "Web Design & Development",
-    description: "Performant, animated, conversion-optimised web experiences",
-    tags: ["Next.js", "React", "Tailwind", "Motion"],
+    icon: Monitor,
+    title: "Web Design & Dev",
+    desc: "Pixel-perfect, conversion-optimised sites built with Next.js and modern CSS. Fast, accessible, and beautiful.",
+    tags: ["Next.js", "Tailwind", "Framer"],
   },
   {
     num: "02",
     icon: Layers,
-    name: "Bubble Development",
-    description: "Full-stack no-code apps built at enterprise scale",
-    tags: ["Bubble.io", "NoCode", "API", "Workflows"],
+    title: "Bubble Development",
+    desc: "Full-featured no-code apps with complex workflows, user auth, payments, and real-time data — shipped fast.",
+    tags: ["Bubble", "No-Code", "Zapier"],
   },
   {
     num: "03",
     icon: Smartphone,
-    name: "App Development",
-    description: "Native and cross-platform mobile products people actually use",
-    tags: ["iOS", "Android", "React Native", "Expo"],
+    title: "App Development",
+    desc: "Cross-platform mobile apps for iOS and Android with native performance and polished UX.",
+    tags: ["React Native", "Expo", "Swift"],
   },
   {
     num: "04",
-    icon: Brain,
-    name: "AI SaaS Development",
-    description: "Intelligent systems woven in, not bolted on",
-    tags: ["LLM", "OpenAI", "RAG", "Embeddings"],
+    icon: Bot,
+    title: "AI SaaS Development",
+    desc: "GPT-powered products, RAG pipelines, embedding search, and custom AI agents built for real business outcomes.",
+    tags: ["OpenAI", "LangChain", "Pinecone"],
   },
   {
     num: "05",
     icon: Rocket,
-    name: "MVP Development",
-    description: "Ship a validated product, not a 6-month waterfall",
-    tags: ["4-week sprints", "Lean", "Test & Learn"],
+    title: "MVP Development",
+    desc: "From concept to live product in 4 weeks. We ruthlessly scope, design, and ship what matters most.",
+    tags: ["Sprint", "Lean", "Ship Fast"],
   },
   {
     num: "06",
-    icon: BarChart3,
-    name: "Digital Marketing",
-    description: "Growth systems that compound, not campaigns that expire",
-    tags: ["SEO", "Paid", "Content", "Analytics"],
+    icon: TrendingUp,
+    title: "Digital Marketing",
+    desc: "SEO, paid ads, content strategy, and funnel optimisation — growth built directly into the product.",
+    tags: ["SEO", "Paid Ads", "Analytics"],
   },
 ];
 
 export default function Services() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.1 });
 
   return (
-    <section
-      id="services"
-      ref={ref}
-      className="py-28 lg:py-36 px-6"
-      style={{ background: "#0A0E1A" }}
-    >
+    <section id="services" ref={ref} className="py-28 px-6" style={{ background: "#080C18" }}>
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-16 lg:mb-20"
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="mb-16"
         >
-          <span
-            className="block text-xs tracking-[0.2em] mb-4"
-            style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}
-          >
+          <p className="text-xs tracking-[0.2em] mb-4" style={{ fontFamily: "var(--font-space-mono)", color: "#6C63FF" }}>
             WHAT WE BUILD
-          </span>
+          </p>
           <h2
-            className="text-4xl lg:text-5xl xl:text-6xl tracking-tight"
-            style={{ fontFamily: "var(--font-syne)", fontWeight: 800, color: "#F0EEF8" }}
+            className="text-4xl lg:text-5xl font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}
           >
-            Every service.
-            <br />
-            <span style={{ color: "#8B90A7" }}>One team. Zero handoffs.</span>
+            Services that ship.
           </h2>
         </motion.div>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-          {services.map((svc, i) => (
-            <ServiceCard key={svc.num} svc={svc} index={i} inView={inView} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((svc, i) => {
+            const Icon = svc.icon;
+            return (
+              <motion.div
+                key={svc.num}
+                initial={{ opacity: 0, y: 32 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
+                className="group relative p-8 rounded-2xl transition-all duration-300"
+                style={{ background: "#131929", border: "1px solid #1E2A45" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(108,99,255,0.5)";
+                  e.currentTarget.style.boxShadow = "0 0 40px rgba(108,99,255,0.08)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "#1E2A45";
+                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <span
+                  className="absolute top-6 right-6 text-4xl font-bold"
+                  style={{ fontFamily: "var(--font-syne)", color: "rgba(240,238,248,0.06)" }}
+                >
+                  {svc.num}
+                </span>
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
+                  style={{ background: "rgba(108,99,255,0.12)", border: "1px solid rgba(108,99,255,0.2)" }}
+                >
+                  <Icon size={20} color="#6C63FF" />
+                </div>
+                <h3
+                  className="text-xl font-bold mb-3"
+                  style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}
+                >
+                  {svc.title}
+                </h3>
+                <p className="text-sm leading-relaxed mb-5" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+                  {svc.desc}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {svc.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 rounded-full text-xs"
+                      style={{
+                        fontFamily: "var(--font-space-mono)",
+                        background: "rgba(30,42,69,0.8)",
+                        color: "#8B90A7",
+                        border: "1px solid #1E2A45",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
-  );
-}
-
-type Service = (typeof services)[number];
-
-function ServiceCard({
-  svc,
-  index,
-  inView,
-}: {
-  svc: Service;
-  index: number;
-  inView: boolean;
-}) {
-  const Icon = svc.icon;
-  const ref = useRef<HTMLDivElement>(null);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ y: 40, opacity: 0 }}
-      animate={inView ? { y: 0, opacity: 1 } : {}}
-      transition={{
-        delay: index * 0.08,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-      className="group relative flex flex-col gap-5 p-6 lg:p-7 rounded-2xl cursor-default transition-all duration-300"
-      style={{
-        background: "#131929",
-        border: "1px solid #1E2A45",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.border = "1px solid rgba(108,99,255,0.5)";
-        e.currentTarget.style.background = "#161D30";
-        e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = "0 20px 60px rgba(108,99,255,0.12)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.border = "1px solid #1E2A45";
-        e.currentTarget.style.background = "#131929";
-        e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow = "none";
-      }}
-    >
-      {/* Number */}
-      <span
-        className="absolute top-6 right-7 text-4xl font-bold leading-none select-none pointer-events-none"
-        style={{
-          fontFamily: "var(--font-syne)",
-          color: "rgba(30, 42, 69, 0.6)",
-        }}
-      >
-        {svc.num}
-      </span>
-
-      {/* Icon */}
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
-        style={{
-          background: "rgba(108,99,255,0.12)",
-          border: "1px solid rgba(108,99,255,0.2)",
-        }}
-      >
-        <Icon size={18} style={{ color: "#6C63FF" }} />
-      </div>
-
-      {/* Content */}
-      <div className="flex flex-col gap-2 flex-1">
-        <h3
-          className="text-lg leading-snug"
-          style={{ fontFamily: "var(--font-syne)", fontWeight: 700, color: "#F0EEF8" }}
-        >
-          {svc.name}
-        </h3>
-        <p
-          className="text-sm leading-relaxed"
-          style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}
-        >
-          {svc.description}
-        </p>
-      </div>
-
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2 pt-2" style={{ borderTop: "1px solid #1E2A45" }}>
-        {svc.tags.map((tag) => (
-          <span
-            key={tag}
-            className="text-xs px-2.5 py-1 rounded-full"
-            style={{
-              fontFamily: "var(--font-space-mono)",
-              color: "#8B90A7",
-              background: "rgba(30, 42, 69, 0.5)",
-            }}
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </motion.div>
   );
 }

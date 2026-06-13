@@ -4,198 +4,144 @@ import { motion } from "framer-motion";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const navLinks = [
-  { label: "Story", href: "#story" },
-  { label: "The Counter", href: "#the-counter" },
-  { label: "Bake Times", href: "#bake-times" },
-  { label: "Visit", href: "#visit" },
+const serviceLinks = [
+  "Web Design & Development",
+  "Bubble Development",
+  "App Development",
+  "AI SaaS Development",
+  "MVP Development",
+  "Digital Marketing",
+];
+
+const companyLinks = [
+  { label: "About", href: "#studio" },
+  { label: "Work", href: "#work" },
+  { label: "Process", href: "#process" },
+  { label: "Services", href: "#services" },
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Facebook", href: "https://facebook.com" },
+  { label: "Twitter / X", href: "https://x.com/craftdexa" },
+  { label: "LinkedIn", href: "https://linkedin.com/company/craftdexa" },
+  { label: "GitHub", href: "https://github.com/craftdexa" },
+  { label: "Dribbble", href: "https://dribbble.com/craftdexa" },
 ];
-
-const whatsappUrl =
-  "https://wa.me/918688104282?text=Hi%2C%20I%27d%20like%20to%20place%20an%20order";
 
 export default function Footer() {
   return (
     <footer
-      style={{
-        background: "#7A2421",
-        paddingTop: "5rem",
-        paddingBottom: "2.5rem",
-        paddingLeft: "1.5rem",
-        paddingRight: "1.5rem",
-      }}
+      className="relative px-6 pt-16 pb-8"
+      style={{ background: "#080C18", borderTop: "1px solid #6C63FF" }}
     >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.7, ease: EASE }}
+      <div className="max-w-7xl mx-auto">
+        <div
+          className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16 pb-14"
+          style={{ borderBottom: "1px solid #1E2A45" }}
         >
           {/* Brand */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              gap: "1rem",
-              paddingBottom: "3rem",
-              borderBottom: "1px solid rgba(247,239,225,0.12)",
-              marginBottom: "2.5rem",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-fraunces)",
-                fontWeight: 700,
-                fontSize: "1.5rem",
-                color: "#F7EFE1",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              Manjunadha Bakery
+          <div className="col-span-2 lg:col-span-1 flex flex-col gap-5">
+            <div className="flex items-center gap-2">
+              <div
+                className="w-7 h-7 rounded-md flex items-center justify-center text-xs font-bold"
+                style={{ background: "linear-gradient(135deg, #6C63FF, #8B5CF6)", fontFamily: "var(--font-syne)", color: "#F0EEF8" }}
+              >
+                CD
+              </div>
+              <span className="text-sm font-bold tracking-[0.12em]" style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}>
+                CRAFTDEXA
+              </span>
+            </div>
+            <p className="text-sm leading-relaxed max-w-xs" style={{ fontFamily: "var(--font-inter)", color: "#8B90A7" }}>
+              Transform ideas into digital ecosystems. Strategy, design, engineering, and growth under one roof.
             </p>
-            <p
-              style={{
-                fontFamily: "var(--font-lora)",
-                fontStyle: "italic",
-                fontSize: "1rem",
-                color: "rgba(247,239,225,0.65)",
-              }}
-            >
-              Baked fresh. Baked honest. Since 2012.
-            </p>
+            <span className="text-xs" style={{ fontFamily: "var(--font-space-mono)", color: "#1E2A45" }}>
+              BUILT IN 2026
+            </span>
+          </div>
 
-            {/* Nav links */}
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "2rem", marginTop: "0.5rem" }}>
-              {navLinks.map((link) => (
+          {/* Services */}
+          <div className="flex flex-col gap-4">
+            <span className="text-xs tracking-[0.15em]" style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}>
+              SERVICES
+            </span>
+            <div className="flex flex-col gap-3">
+              {serviceLinks.map((link) => (
+                <a
+                  key={link}
+                  href="#services"
+                  className="text-sm transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-inter)", color: "#8B90A7", textDecoration: "none" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F0EEF8")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#8B90A7")}
+                >
+                  {link}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Company */}
+          <div className="flex flex-col gap-4">
+            <span className="text-xs tracking-[0.15em]" style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}>
+              COMPANY
+            </span>
+            <div className="flex flex-col gap-3">
+              {companyLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  style={{
-                    fontFamily: "var(--font-space-mono)",
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    color: "rgba(247,239,225,0.55)",
-                    textDecoration: "none",
-                    transition: "color 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#DDA34B")}
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "rgba(247,239,225,0.55)")
-                  }
+                  className="text-sm transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-inter)", color: "#8B90A7", textDecoration: "none" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F0EEF8")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#8B90A7")}
                 >
                   {link.label}
                 </a>
               ))}
             </div>
+          </div>
 
-            {/* Social + WhatsApp */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "1.5rem",
-                marginTop: "0.5rem",
-              }}
+          {/* Connect */}
+          <div className="flex flex-col gap-4">
+            <span className="text-xs tracking-[0.15em]" style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}>
+              CONNECT
+            </span>
+            <a
+              href="mailto:craftdexa@gmail.com"
+              className="text-sm transition-colors duration-200"
+              style={{ fontFamily: "var(--font-inter)", color: "#6C63FF", fontWeight: 500, textDecoration: "none" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#9C8DFF")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#6C63FF")}
             >
+              craftdexa@gmail.com
+            </a>
+            <div className="flex flex-col gap-3 mt-2">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    fontFamily: "var(--font-space-mono)",
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "rgba(247,239,225,0.45)",
-                    textDecoration: "none",
-                    transition: "color 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F7EFE1")}
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "rgba(247,239,225,0.45)")
-                  }
+                  className="text-sm transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-inter)", color: "#8B90A7", textDecoration: "none" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F0EEF8")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#8B90A7")}
                 >
                   {link.label}
                 </a>
               ))}
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: "var(--font-space-mono)",
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  fontWeight: 700,
-                  color: "#2B1D14",
-                  background: "#DDA34B",
-                  padding: "0.4rem 0.875rem",
-                  borderRadius: "6px",
-                  textDecoration: "none",
-                  transition: "opacity 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-              >
-                Order on WhatsApp
-              </a>
             </div>
           </div>
+        </div>
 
-          {/* Bottom bar */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-space-mono)",
-                fontSize: "0.65rem",
-                letterSpacing: "0.1em",
-                color: "rgba(247,239,225,0.35)",
-                textAlign: "center",
-              }}
-            >
-              © 2026 Manjunadha Bakery. All recipes kept in the family.
-            </p>
-            <a
-              href="mailto:manjunadhabengalurubakery@gmail.com"
-              style={{
-                fontFamily: "var(--font-space-mono)",
-                fontSize: "0.65rem",
-                letterSpacing: "0.08em",
-                color: "rgba(247,239,225,0.28)",
-                textDecoration: "none",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = "rgba(247,239,225,0.55)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = "rgba(247,239,225,0.28)")
-              }
-            >
-              manjunadhabengalurubakery@gmail.com
-            </a>
-          </div>
-        </motion.div>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8">
+          <span className="text-xs" style={{ fontFamily: "var(--font-space-mono)", color: "#8B90A7" }}>
+            © 2026 CraftDexa. All rights reserved.
+          </span>
+          <span className="text-xs tracking-[0.2em]" style={{ fontFamily: "var(--font-space-mono)", color: "#1E2A45" }}>
+            CRAFTDEXA.COM
+          </span>
+        </div>
       </div>
     </footer>
   );

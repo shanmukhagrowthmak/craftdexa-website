@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { label: "Story", href: "#story" },
-  { label: "The Counter", href: "#the-counter" },
-  { label: "Bake Times", href: "#bake-times" },
-  { label: "Visit", href: "#visit" },
+  { label: "Work", href: "#work" },
+  { label: "Services", href: "#services" },
+  { label: "Process", href: "#process" },
+  { label: "Studio", href: "#studio" },
 ];
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -27,36 +27,42 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const whatsappUrl =
-    "https://wa.me/918688104282?text=Hi%2C%20I%27d%20like%20to%20place%20an%20order";
-
   return (
     <>
-      <motion.header
+      <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: EASE }}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled ? "#F7EFE1" : "transparent",
-          boxShadow: scrolled ? "0 1px 0 rgba(43,29,20,0.08)" : "none",
+          background: scrolled ? "rgba(10,14,26,0.95)" : "transparent",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(30,42,69,0.8)" : "none",
         }}
       >
-        <nav className="max-w-[1280px] mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <a
             href="#"
-            style={{
-              fontFamily: "var(--font-fraunces)",
-              fontWeight: 700,
-              fontSize: "1.1rem",
-              letterSpacing: "-0.01em",
-              color: scrolled ? "#7A2421" : "#F7EFE1",
-              textDecoration: "none",
-              transition: "color 0.3s ease",
-            }}
+            className="flex items-center gap-2"
+            style={{ textDecoration: "none" }}
           >
-            Manjunadha Bakery
+            <div
+              className="w-7 h-7 rounded-md flex items-center justify-center text-xs font-bold"
+              style={{
+                background: "linear-gradient(135deg, #6C63FF, #8B5CF6)",
+                fontFamily: "var(--font-syne)",
+                color: "#F0EEF8",
+              }}
+            >
+              CD
+            </div>
+            <span
+              className="text-sm font-bold tracking-[0.12em]"
+              style={{ fontFamily: "var(--font-syne)", color: "#F0EEF8" }}
+            >
+              CRAFTDEXA
+            </span>
           </a>
 
           {/* Desktop nav */}
@@ -65,52 +71,45 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
+                className="text-sm transition-colors duration-200"
                 style={{
-                  fontFamily: "var(--font-space-mono)",
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: scrolled ? "#2B1D14" : "#F7EFE1CC",
+                  fontFamily: "var(--font-inter)",
+                  color: "#8B90A7",
                   textDecoration: "none",
-                  transition: "color 0.2s ease",
+                  fontWeight: 500,
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#DDA34B")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = scrolled ? "#2B1D14" : "#F7EFE1CC")
-                }
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#F0EEF8")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#8B90A7")}
               >
                 {link.label}
               </a>
             ))}
+          </div>
+
+          {/* CTA */}
+          <div className="hidden md:flex items-center gap-3">
             <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#contact"
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300"
               style={{
-                fontFamily: "var(--font-space-mono)",
-                fontSize: "0.75rem",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                background: "#DDA34B",
-                color: "#2B1D14",
-                padding: "0.5rem 1rem",
-                borderRadius: "8px",
+                fontFamily: "var(--font-inter)",
+                background: "#6C63FF",
+                color: "#F0EEF8",
                 textDecoration: "none",
-                fontWeight: 700,
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                boxShadow: "0 0 24px rgba(108,99,255,0.25)",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 6px 20px rgba(221,163,75,0.35)";
+                e.currentTarget.style.background = "#7C74FF";
+                e.currentTarget.style.boxShadow = "0 0 40px rgba(108,99,255,0.45)";
+                e.currentTarget.style.transform = "translateY(-1px)";
               }}
               onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#6C63FF";
+                e.currentTarget.style.boxShadow = "0 0 24px rgba(108,99,255,0.25)";
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "none";
               }}
             >
-              Order on WhatsApp
+              Start Project →
             </a>
           </div>
 
@@ -119,21 +118,21 @@ export default function Navbar() {
             onClick={() => setMenuOpen(true)}
             className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg"
             style={{
-              color: scrolled ? "#2B1D14" : "#F7EFE1",
-              background: scrolled ? "rgba(43,29,20,0.06)" : "rgba(247,239,225,0.15)",
-              border: "none",
+              background: "rgba(108,99,255,0.12)",
+              border: "1px solid rgba(108,99,255,0.2)",
               cursor: "pointer",
+              color: "#F0EEF8",
             }}
             aria-label="Open menu"
           >
-            <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
-              <line x1="0" y1="1" x2="18" y2="1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              <line x1="0" y1="7" x2="18" y2="7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              <line x1="0" y1="13" x2="18" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+              <line x1="0" y1="1" x2="16" y2="1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <line x1="0" y1="6" x2="16" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <line x1="0" y1="11" x2="16" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
-        </nav>
-      </motion.header>
+        </div>
+      </motion.nav>
 
       {/* Mobile drawer */}
       <AnimatePresence>
@@ -145,7 +144,7 @@ export default function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-0 z-[60]"
-              style={{ background: "rgba(43,29,20,0.5)", backdropFilter: "blur(4px)" }}
+              style={{ background: "rgba(10,14,26,0.7)", backdropFilter: "blur(8px)" }}
               onClick={() => setMenuOpen(false)}
             />
             <motion.div
@@ -154,23 +153,18 @@ export default function Navbar() {
               exit={{ x: "100%" }}
               transition={{ duration: 0.35, ease: EASE }}
               className="fixed top-0 right-0 h-full w-72 z-[70] flex flex-col"
-              style={{ background: "#F7EFE1", borderLeft: "1px solid rgba(122,36,33,0.12)" }}
+              style={{ background: "#131929", borderLeft: "1px solid #1E2A45" }}
             >
               <div className="flex items-center justify-between px-6 py-5">
                 <span
-                  style={{
-                    fontFamily: "var(--font-fraunces)",
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    color: "#7A2421",
-                  }}
+                  style={{ fontFamily: "var(--font-syne)", fontWeight: 700, fontSize: "0.9rem", color: "#F0EEF8" }}
                 >
-                  Manjunadha Bakery
+                  CRAFTDEXA
                 </span>
                 <button
                   onClick={() => setMenuOpen(false)}
                   style={{
-                    background: "rgba(122,36,33,0.08)",
+                    background: "rgba(108,99,255,0.1)",
                     border: "none",
                     borderRadius: "6px",
                     width: "32px",
@@ -179,13 +173,13 @@ export default function Navbar() {
                     alignItems: "center",
                     justifyContent: "center",
                     cursor: "pointer",
-                    color: "#7A2421",
+                    color: "#F0EEF8",
                   }}
                   aria-label="Close menu"
                 >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                    <line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <line x1="1" y1="1" x2="11" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <line x1="11" y1="1" x2="1" y2="11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </button>
               </div>
@@ -200,23 +194,22 @@ export default function Navbar() {
                     transition={{ delay: 0.05 * i + 0.1, ease: EASE }}
                     onClick={() => setMenuOpen(false)}
                     style={{
-                      fontFamily: "var(--font-space-mono)",
-                      fontSize: "0.75rem",
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      color: "#2B1D14",
+                      fontFamily: "var(--font-inter)",
+                      fontSize: "0.95rem",
+                      color: "#8B90A7",
                       textDecoration: "none",
-                      padding: "0.875rem 1rem",
+                      padding: "0.75rem 1rem",
                       borderRadius: "8px",
+                      fontWeight: 500,
                       transition: "background 0.15s ease, color 0.15s ease",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(122,36,33,0.06)";
-                      e.currentTarget.style.color = "#7A2421";
+                      e.currentTarget.style.background = "rgba(108,99,255,0.08)";
+                      e.currentTarget.style.color = "#F0EEF8";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = "transparent";
-                      e.currentTarget.style.color = "#2B1D14";
+                      e.currentTarget.style.color = "#8B90A7";
                     }}
                   >
                     {link.label}
@@ -226,26 +219,22 @@ export default function Navbar() {
 
               <div className="mt-auto px-6 pb-8">
                 <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#contact"
                   onClick={() => setMenuOpen(false)}
                   style={{
                     display: "block",
-                    background: "#DDA34B",
-                    color: "#2B1D14",
-                    fontFamily: "var(--font-space-mono)",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    fontWeight: 700,
+                    background: "#6C63FF",
+                    color: "#F0EEF8",
+                    fontFamily: "var(--font-inter)",
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
                     textDecoration: "none",
                     textAlign: "center",
                     padding: "0.875rem",
-                    borderRadius: "8px",
+                    borderRadius: "12px",
                   }}
                 >
-                  Order on WhatsApp
+                  Start a Project →
                 </a>
               </div>
             </motion.div>
